@@ -48,14 +48,14 @@ export default class Post extends Component {
       this.setState({ showMasterMenu: false });
     }
   }
-  
+
   render() {
     // This is destructuring! You can also think of it as being written as so:
-    // const editing = this.state.editing
-    // const showMasterMenu = this.state.showMasterMenu
+      // const editing = this.state.editing
+      // const showMasterMenu = this.state.showMasterMenu
     const { editing, showMasterMenu } = this.state;
-    const {text, date} = this.props;
-    
+    const {text,date} = this.props
+
     return (
       // Main body of post
       <section className="Post__parent" onClick={ this.hideMasterMenu }>
@@ -67,7 +67,7 @@ export default class Post extends Component {
           {/* Drop-down menu. Remember that the "showMasterMenu" variable has been destructured off of this.state */}
           <div className="Post__master-menu" style={ { display: showMasterMenu ? 'flex' : 'none' } }>
             <span onClick={ this.showEdit }>Edit</span>
-            <span onClick={ () => this.deletePostFn( this.id ) }>Delete</span>
+            <span onClick={ ()=> this.props.deletePostFn(this.props.id)}>Delete</span>
           </div>
         </div>
 
@@ -80,21 +80,28 @@ export default class Post extends Component {
           <span className="Post__name">DevMountain</span>
           <span className="Post__handle">@DevMountain</span>
 
-          <span className="Post__date">- POST DATE GOES HERE</span>
+          <span className="Post__date">- {date}</span>
         </div>
-          
-        
+
+        {/* This is where the text goes. Notice the turnary statement. The turnary statement decides to display either the text OR the editor view
+            You can also think of it as being written as so:
+              if( this.state.editing === true ) {
+                <Edit ... />
+              } else {
+                <span ... ></span>
+              }
+        */}
         <div className="Post__content">
           {
             // This has been pulled off of this.state via destructuring
             editing
             ?
-            <Edit text={ text }
-            id={this.id} // Remember to destructure id off of props or use this.props.id
-            hideEdit={ this.hideEdit }
-            updatePostFN={ this.updatePostFN } />
+              <Edit text={text}
+                    id={this.props.id}
+                    hideEdit={ this.hideEdit } 
+                    updatePostFn={this.props.updatePostFn}/>
             :
-            <span className="Post__text">{ text }</span>
+              <span className="Post__text">{text}</span>
           }
         </div>
 
